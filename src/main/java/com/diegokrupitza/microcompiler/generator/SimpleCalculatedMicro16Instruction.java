@@ -13,31 +13,42 @@ import java.util.Optional;
 
 /**
  * Project: micro16-compiler
- * Document: SimpleVariableMicro16Instruction.java
+ * Document: SimpleCalculatedMicro16Instruction.java
  * Author: Diego Krupitza
  * Created: 20.12.18
  */
 @Slf4j
-@Getter
 @Setter
-public class SimpleVariableMicro16Instruction extends Micro16Instruction {
+@Getter
+public class SimpleCalculatedMicro16Instruction extends Micro16Instruction {
 
     private String variableName = "undefined";
     private String value = "undefined";
 
-    public SimpleVariableMicro16Instruction(String instructionString) throws GeneratorException {
+    private String operation = "";
+    private String leftValue = "";
+    private String rightValue = "";
+
+    public SimpleCalculatedMicro16Instruction(String instructionString) throws GeneratorException {
         super(instructionString);
     }
 
     @Override
-    public void parseInstruction(String instruction) throws GeneratorException {
-        // Starting with a simple instructions -> var a = 4;
+    void parseInstruction(String instruction) throws GeneratorException {
+        // Starting with a simple instructions -> var b = 4 + 2
         String[] splitedInstruction = instruction.split(" ");
 
         this.variableName = splitedInstruction[1];
-        this.value = splitedInstruction[3];
+        this.leftValue = splitedInstruction[3];
+        this.operation = splitedInstruction[4];
+        this.rightValue = splitedInstruction[5];
 
-        log.debug("Varname: {} \t Value: {}", variableName, value);
+        // deciding if its a plus or minus operations
+        // based on the result there is a chance to optimize the calculation already before compiling
+        int tempVal = (operation.equals("+")) ? Integer.parseInt(leftValue) + Integer.parseInt(rightValue) : Integer.parseInt(leftValue) - Integer.parseInt(rightValue);
+        this.value = tempVal + "";
+
+        log.info("Varname: {} \t Value: {}", variableName, value);
 
         generateInstruction();
     }
@@ -74,6 +85,7 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
                 .build();
 
         StorageHandler.addVariable(variable);
+
 
     }
 }

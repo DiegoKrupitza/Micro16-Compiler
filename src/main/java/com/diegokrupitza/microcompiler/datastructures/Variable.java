@@ -16,7 +16,8 @@ import lombok.ToString;
 public class Variable {
 
     private String name;
-    private long value;
+    private String value;
     private boolean isInRegister;
+    private String registerName;
 
 }

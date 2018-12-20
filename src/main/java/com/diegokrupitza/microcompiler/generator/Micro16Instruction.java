@@ -1,6 +1,8 @@
 package com.diegokrupitza.microcompiler.generator;
 
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Project: micro16-compiler
@@ -8,6 +10,8 @@ import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
  * Author: Diego Krupitza
  * Created: 20.12.18
  */
+@Setter
+@Getter
 public abstract class Micro16Instruction {
 
     public String microInstruction = "";

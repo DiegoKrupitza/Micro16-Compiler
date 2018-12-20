@@ -19,24 +19,47 @@ public class ValueGenerator {
      * @return the code for generating that given number
      */
     public static Optional<String> generateValue(int value) {
-        String returnString = null;
+        String returnString = "\nAC <- 0";
 
         if (MathematicalHelper.isPowerOfTwo(value)) {
             // you can generate a number by shifting if its a number made of power 2
             // starting by writing the number 1 into AC
-            returnString = "AC <- 1";
+            returnString += "\nAC <- 1";
 
             // shifting the number 1 that often to reach the power I want to get
             double powerOfTwo = MathematicalHelper.getPowerOfTwo(value);
             for (int i = 0; i < powerOfTwo; i++) {
                 returnString += "\nAC <- lsh(AC)";
             }
-
         } else {
-            //TODO: implement generation of numbers that arent made of power 2
+            // finding the nearest power of two
+            double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(value);
+
+            // generating that nearest number
+            // starting by writing the number 1 into AC
+            returnString += "\nAC <- 1";
+
+            // shifting the number 1 that often to reach the power I want to get
+            int powerOfTwo = (int) MathematicalHelper.getPowerOfTwo((int) nearestPowerOfTwo);
+            for (int i = 0; i < powerOfTwo; i++) {
+                returnString += "\nAC <- lsh(AC)";
+            }
+
+            // fixing the overhead
+            int difference = (int) (nearestPowerOfTwo - value);
+
+            // deciding of i have to subtrac 1 or add 1 ->
+            // Example: 8 - 7 = 1
+            // Example: 16 - 20 = -4
+            boolean subtract = difference > 0;
+
+            // iterating to the wished number
+            for (int i = 0; i < Math.abs(difference); i++) {
+                returnString += (subtract) ? "\nAC <- AC + -1" : "\nAC <- AC + 1";
+            }
         }
 
-        return Optional.ofNullable(returnString);
+        return Optional.of(returnString);
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class StorageHandlerTest {
 
@@ -22,7 +21,7 @@ class StorageHandlerTest {
     @Test
     void reserveRegisterNegativeTest() {
         //checking if when there is no register free the return is null
-        Arrays.fill(StorageHandler.registerUse, true);
+        Arrays.fill(StorageHandler.REGISTER_USE, true);
         StorageHandler storageHandler = new StorageHandler();
 
         Optional<String> reserveRegister = storageHandler.reserveRegister();

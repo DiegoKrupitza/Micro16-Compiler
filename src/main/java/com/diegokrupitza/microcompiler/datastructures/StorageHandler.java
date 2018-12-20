@@ -2,9 +2,9 @@ package com.diegokrupitza.microcompiler.datastructures;
 
 import lombok.Getter;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Project: micro16-compiler
@@ -15,8 +15,10 @@ import java.util.stream.Stream;
 @Getter
 public class StorageHandler {
 
-    public static final boolean[] registerUse = new boolean[11];
+    public static final boolean[] REGISTER_USE = new boolean[11];
     public static final int MEMORY_START_ADDR = 0x0000;
+
+    private static List<Variable> variableList = new ArrayList<>();
 
     /**
      * Reserves a slot for a register. If there is no register available there is a null object in the Optional
@@ -47,7 +49,6 @@ public class StorageHandler {
         return returnString;
     }
 
-
     /**
      * Searches for the first free register. If there is no than you get the min value of Integer
      *
@@ -55,13 +56,23 @@ public class StorageHandler {
      */
     private int getFirstFreeRegister() {
         int registerId = Integer.MIN_VALUE;
-        for (int i = 0; i < registerUse.length; i++) {
-            if (!registerUse[i]) {
-                registerUse[i] = true;
+        for (int i = 0; i < REGISTER_USE.length; i++) {
+            if (!REGISTER_USE[i]) {
+                REGISTER_USE[i] = true;
                 registerId = i;
                 break;
             }
         }
         return registerId;
     }
+
+    /**
+     * Adds a new variable to the Storagehandler
+     *
+     * @param variable the variable object to add
+     */
+    public static void addVariable(Variable variable) {
+        variableList.add(variable);
+    }
+
 }

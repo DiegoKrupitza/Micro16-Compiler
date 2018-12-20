@@ -1,0 +1,6 @@
+In this language there are five ways to define a variable:
+1. var [variableName] = [value]
+2. var [variableName] = [value1] [operation] [value2]
+3. var [variableName] = [variableName]
+4. var [variableName] = [variableName1] [operation] [variableName2]
+5. var [variableName] = [variableName1] [operation] [value]

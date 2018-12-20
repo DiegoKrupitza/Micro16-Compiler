@@ -3,6 +3,7 @@ package com.diegokrupitza.microcompiler;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.generator.Micro16Instruction;
+import com.diegokrupitza.microcompiler.generator.SimpleCalculatedMicro16Instruction;
 import com.diegokrupitza.microcompiler.generator.SimpleVariableMicro16Instruction;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,11 +29,11 @@ public class Main {
 
     public static final String INPUT_CODE_LOCATION = "samplecode/test.mcr";
 
-    // For later improvements like storage management, for example when all the 13 registers are already filled and you want to save a another variable.
+    // For later improvements like storage management, for example when all the 10 registers are already filled and you want to save a another variable.
     // In that case you habe to write one of the older variables into the memory
     public static final StorageHandler STORAGE_HANDLER = new StorageHandler();
-    //public static List<Variable> variableList = new ArrayList<>();
 
+    public static final StringBuilder OUTPUT_BUILDER = new StringBuilder();
 
     public static void main(String[] args) {
         setup();
@@ -45,6 +46,8 @@ public class Main {
             e.printStackTrace();
             System.exit(-1);
         }
+        String output = OUTPUT_BUILDER.toString();
+        System.out.println(output);
     }
 
     /**
@@ -75,7 +78,7 @@ public class Main {
      */
     private static void setup() {
         //setting use of all register to false
-        Arrays.fill(StorageHandler.registerUse, false);
+        Arrays.fill(StorageHandler.REGISTER_USE, false);
     }
 
     private static void parseCode(String inputCode) throws GeneratorException {
@@ -86,8 +89,16 @@ public class Main {
             String instructionString = inputCodeRowed[i];
             log.debug("{}", instructionString);
 
-            if (instructionString.startsWith("var")) {
+
+            if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)")) {
+                // in case the line is -> var [variableName] = [value]
                 Micro16Instruction micro16Instruction = new SimpleVariableMicro16Instruction(instructionString);
+                OUTPUT_BUILDER.append(micro16Instruction.microInstruction);
+            } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )(\\+)( )(\\d+)")) {
+                //TODO: change operation in regex to + or -
+                // in case the line is -> var [variableName] = [value1] + [value2]
+                Micro16Instruction micro16Instruction = new SimpleCalculatedMicro16Instruction(instructionString);
+                OUTPUT_BUILDER.append(micro16Instruction.microInstruction);
             }
 
         }
