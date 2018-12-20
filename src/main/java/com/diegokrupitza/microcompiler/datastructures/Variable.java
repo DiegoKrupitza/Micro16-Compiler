@@ -1,4 +1,4 @@
-package datastructures;
+package com.diegokrupitza.microcompiler.datastructures;
 
 import lombok.Builder;
 import lombok.Data;
