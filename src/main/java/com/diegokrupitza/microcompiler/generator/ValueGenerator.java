@@ -17,6 +17,9 @@ public class ValueGenerator {
     public static final int MAX_POSITIV_NUMBER = 32767;
     public static final int MAX_NEGATIV_NUMBER = -32768;
 
+    private ValueGenerator() {
+    }
+
     /**
      * Generates the Micro16 instructions to make a number.
      * The result of that calculation is after that saved into the register AC
@@ -25,18 +28,18 @@ public class ValueGenerator {
      * @return the code for generating that given number
      */
     public static Optional<String> generateValue(int value) throws GeneratorException {
-
+        StringBuilder returnString = new StringBuilder();
         if (!isValidNumber(value)) {
             throw new GeneratorException(ErrorMessages.VALUE_OUT_OF_RANGE);
         }
 
-        String returnString = "\nAC <- 0";
+        returnString.append("\nAC <- 0");
 
         int workValue = Math.abs(value);
 
         // finding the nearest power of two
         double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(workValue);
-        returnString += generateNearestPowerOfTwo((int) nearestPowerOfTwo);
+        returnString.append(generateNearestPowerOfTwo((int) nearestPowerOfTwo));
 
         if (!MathematicalHelper.isPowerOfTwo(workValue)) {
             // fixing the overhead, when the number is not a power of two
@@ -49,17 +52,17 @@ public class ValueGenerator {
 
             // iterating to the wished number
             for (int i = 0; i < Math.abs(difference); i++) {
-                returnString += (subtract) ? "\nAC <- AC + -1" : "\nAC <- AC + 1";
+                returnString.append((subtract) ? "\nAC <- AC + -1" : "\nAC <- AC + 1");
             }
         }
 
         if (value < 0) {
             // the micro16 cpu works in twos complement
             // so to display negative values i have to  invert the value and add 1
-            returnString += convertToNegativeNumber();
+            returnString.append(convertToNegativeNumber());
         }
 
-        return Optional.of(returnString);
+        return Optional.of(returnString.toString());
     }
 
     /**
@@ -78,9 +81,8 @@ public class ValueGenerator {
      * @return the instructions to get a negative number
      */
     public static String convertToNegativeNumber() {
-        String output = "\nAC <- ~AC\n";
-        output += "AC <- AC + 1\n";
-        return output;
+        return "\nAC <- ~AC\n" +
+                "AC <- AC + 1\n";
     }
 
     /**
@@ -90,17 +92,17 @@ public class ValueGenerator {
      * @return the micro 16 instructions to get to that certain number
      */
     public static String generateNearestPowerOfTwo(int nearestPowerOfTwo) {
-        String returnString = "";
+        StringBuilder returnString = new StringBuilder();
         // generating that nearest number
         // starting by writing the number 1 into AC
-        returnString += "\nAC <- 1";
+        returnString.append("\nAC <- 1");
 
         // shifting the number 1 that often to reach the power I want to get
         int powerOfTwo = (int) MathematicalHelper.getPowerOfTwo(nearestPowerOfTwo);
         for (int i = 0; i < powerOfTwo; i++) {
-            returnString += "\nAC <- lsh(AC)";
+            returnString.append("\nAC <- lsh(AC)");
         }
-        return returnString;
+        return returnString.toString();
     }
 
 }

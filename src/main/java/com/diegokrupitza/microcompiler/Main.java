@@ -44,8 +44,7 @@ public class Main {
         try {
             parseCode(inputCode);
         } catch (GeneratorException e) {
-            log.error("{}", e.getMessage());
-            e.printStackTrace();
+            log.error("{}", e);
             System.exit(-1);
         }
         String output = OUTPUT_BUILDER.toString();
@@ -63,8 +62,7 @@ public class Main {
         try {
             inputCode = new String(Files.readAllBytes(Paths.get(inputCodeLocation)));
         } catch (IOException e) {
-            log.error("{}", ErrorMessages.FILE_NOTEXIST);
-            e.printStackTrace();
+            log.error("{} \n {}", ErrorMessages.FILE_NOTEXIST, e);
         }
 
         // removing all the comments and empty lines from the code
@@ -78,7 +76,7 @@ public class Main {
      */
     private static void setup() {
         //setting use of all register to false
-        Arrays.fill(StorageHandler.REGISTER_USE, false);
+        Arrays.fill(StorageHandler.getRegisterUse(), false);
     }
 
     private static void parseCode(String inputCode) throws GeneratorException {
@@ -93,12 +91,11 @@ public class Main {
             if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)")) {
                 // in case the line is -> var [variableName] = [value]
                 Micro16Instruction micro16Instruction = new SimpleVariableMicro16Instruction(instructionString);
-                OUTPUT_BUILDER.append(micro16Instruction.microInstruction);
+                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
             } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-])( )(\\d+)")) {
-                //TODO: change operation in regex to + or -
                 // in case the line is -> var [variableName] = [value1] + [value2]
                 Micro16Instruction micro16Instruction = new SimpleCalculatedMicro16Instruction(instructionString);
-                OUTPUT_BUILDER.append(micro16Instruction.microInstruction);
+                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
             }
 
         }

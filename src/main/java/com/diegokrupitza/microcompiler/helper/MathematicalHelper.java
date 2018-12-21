@@ -8,6 +8,9 @@ package com.diegokrupitza.microcompiler.helper;
  */
 public class MathematicalHelper {
 
+    private MathematicalHelper() {
+    }
+
     /**
      * checks if a number is a result of power 2
      *

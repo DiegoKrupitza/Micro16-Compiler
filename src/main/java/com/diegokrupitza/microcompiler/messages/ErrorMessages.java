@@ -1,6 +1,5 @@
 package com.diegokrupitza.microcompiler.messages;
 
-import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 
 /**

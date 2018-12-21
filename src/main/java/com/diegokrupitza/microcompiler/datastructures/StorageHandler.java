@@ -15,7 +15,7 @@ import java.util.Optional;
 @Getter
 public class StorageHandler {
 
-    public static final boolean[] REGISTER_USE = new boolean[11];
+    protected static final boolean[] REGISTER_USE = new boolean[11];
     public static final int MEMORY_START_ADDR = 0x0000;
 
     private static List<Variable> variableList = new ArrayList<>();
@@ -75,4 +75,12 @@ public class StorageHandler {
         variableList.add(variable);
     }
 
+
+    public static boolean[] getRegisterUse() {
+        return REGISTER_USE;
+    }
+
+    public static List<Variable> getVariableList() {
+        return variableList;
+    }
 }

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 public abstract class Micro16Instruction {
 
-    public String microInstruction = "";
+    protected String microInstruction = "";
 
     Micro16Instruction(String instruction) throws GeneratorException {
         parseInstruction(instruction);

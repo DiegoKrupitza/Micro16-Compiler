@@ -64,8 +64,8 @@ public class SimpleCalculatedMicro16Instruction extends Micro16Instruction {
         }
 
         // try to generate the number i want to save in my variable
-        int value = Integer.parseInt(getValue());
-        Optional<String> optionalValueGeneratorCode = ValueGenerator.generateValue(value);
+        int calculatedValue = Integer.parseInt(getValue());
+        Optional<String> optionalValueGeneratorCode = ValueGenerator.generateValue(calculatedValue);
         if (!optionalValueGeneratorCode.isPresent()) {
             throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_NUMBER);
         }
@@ -74,7 +74,7 @@ public class SimpleCalculatedMicro16Instruction extends Micro16Instruction {
         String registerName = optionalRegister.get();
         String valueGeneratorCode = optionalValueGeneratorCode.get();
 
-        this.microInstruction = valueGeneratorCode + "\n" + registerName + " <- AC\n";
+        setMicroInstruction(valueGeneratorCode + "\n" + registerName + " <- AC\n");
 
         // saving the generated information into the list of all defined variables
         Variable variable = Variable.builder()
