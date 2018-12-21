@@ -21,7 +21,8 @@ public class StorageHandler {
     private static List<Variable> variableList = new ArrayList<>();
 
     /**
-     * Reserves a slot for a register. If there is no register available there is a null object in the Optional
+     * Reserves a slot for a register.
+     * If there is no register available there is a null object in the Optional
      *
      * @return the name of the reserver register
      */
@@ -50,7 +51,8 @@ public class StorageHandler {
     }
 
     /**
-     * Searches for the first free register. If there is no than you get the min value of Integer
+     * Searches for the first free register.
+     * If there is no than you get the min value of Integer
      *
      * @return the index of the register
      */

@@ -3,7 +3,6 @@ package com.diegokrupitza.microcompiler;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.generator.Micro16Instruction;
-import com.diegokrupitza.microcompiler.generator.SimpleCalculatedMicro16Instruction;
 import com.diegokrupitza.microcompiler.generator.SimpleVariableMicro16Instruction;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,8 @@ public class Main {
 
     public static final String INPUT_CODE_LOCATION = "samplecode/test.mcr";
 
-    // For later improvements like storage management, for example when all the 10 registers are already filled and you want to save a another variable.
+    // For later improvements like storage management.
+    // For example when all the 10 registers are already filled and you want to save a another variable.
     // In that case you habe to write one of the older variables into the memory
     public static final StorageHandler STORAGE_HANDLER = new StorageHandler();
 
@@ -52,6 +52,34 @@ public class Main {
     }
 
     /**
+     * Prepares the compiler for parsing and generating the Micro-16 code
+     */
+    private static void setup() {
+        //setting use of all register to false
+        Arrays.fill(StorageHandler.getRegisterUse(), false);
+    }
+
+    private static void parseCode(String inputCode) throws GeneratorException {
+
+        String[] inputCodeRowed = inputCode.split("\n");
+
+        for (int i = 0; i < inputCodeRowed.length; i++) {
+            String instructionString = inputCodeRowed[i];
+            log.debug("{}", instructionString);
+
+
+            if (instructionString.matches("((var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+))|((var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-/*])( )(\\d+))") || instructionString.matches("")) {
+                // in case the line is -> var [variableName] = [value]
+                // or var [variableName] = [value1] [operation] [value2]
+                Micro16Instruction micro16Instruction = new SimpleVariableMicro16Instruction(instructionString);
+                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
+            }
+
+        }
+
+    }
+
+    /**
      * Read the code from a file into a String variable for further parsing
      *
      * @param inputCodeLocation the location of the code as String
@@ -70,37 +98,5 @@ public class Main {
         return inputCode;
     }
 
-
-    /**
-     * Prepares the compiler for parsing and generating the Micro-16 code
-     */
-    private static void setup() {
-        //setting use of all register to false
-        Arrays.fill(StorageHandler.getRegisterUse(), false);
-    }
-
-    private static void parseCode(String inputCode) throws GeneratorException {
-
-        String[] inputCodeRowed = inputCode.split("\n");
-
-        for (int i = 0; i < inputCodeRowed.length; i++) {
-            String instructionString = inputCodeRowed[i];
-            log.debug("{}", instructionString);
-
-
-            if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)")) {
-                // in case the line is -> var [variableName] = [value]
-                Micro16Instruction micro16Instruction = new SimpleVariableMicro16Instruction(instructionString);
-                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
-            } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-])( )(\\d+)")) {
-                // in case the line is -> var [variableName] = [value1] + [value2]
-                Micro16Instruction micro16Instruction = new SimpleCalculatedMicro16Instruction(instructionString);
-                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
-            }
-
-        }
-
-
-    }
 
 }

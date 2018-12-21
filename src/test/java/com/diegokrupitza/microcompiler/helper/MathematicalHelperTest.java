@@ -21,4 +21,13 @@ class MathematicalHelperTest {
         assertThat(nearestPowerOfTwo).isEqualTo(64);
     }
 
+    @Test
+    void isPowerOfTwoTest() {
+        boolean powerOfTwo = MathematicalHelper.isPowerOfTwo(64);
+        assertThat(powerOfTwo).isEqualTo(true);
+
+        powerOfTwo = MathematicalHelper.isPowerOfTwo(295);
+        assertThat(powerOfTwo).isEqualTo(false);
+    }
+
 }

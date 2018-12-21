@@ -37,6 +37,18 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
         this.variableName = splitedInstruction[1];
         this.value = splitedInstruction[3];
 
+        if (instruction.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-])( )(\\d+)")) {
+            int leftValue = Integer.parseInt(splitedInstruction[3]);
+            String operation = splitedInstruction[4];
+            int rightValue = Integer.parseInt(splitedInstruction[5]);
+
+            // deciding if its a plus or minus operations
+            // based on the result there is a chance to optimize the calculation already before compiling
+            int tempVal = ("+".equals(operation)) ? leftValue + rightValue : leftValue - rightValue;
+
+            this.value = tempVal + "";
+        }
+
         log.debug("Varname: {} \t Value: {}", variableName, value);
 
         generateInstruction();

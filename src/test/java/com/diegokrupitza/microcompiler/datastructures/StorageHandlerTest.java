@@ -2,6 +2,7 @@ package com.diegokrupitza.microcompiler.datastructures;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -27,4 +28,5 @@ class StorageHandlerTest {
         Optional<String> reserveRegister = storageHandler.reserveRegister();
         assertThat(reserveRegister.isPresent()).isEqualTo(false);
     }
+
 }

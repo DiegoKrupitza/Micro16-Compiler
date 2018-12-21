@@ -39,8 +39,9 @@ public class MathematicalHelper {
      * @return the nearest power of two
      */
     public static double getNearestPowerOfTwo(int number) {
-        // according to http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float this is the fastest way to find the nearest power of two
+        // according to [1] this is the fastest way to find the nearest power of two
         // this is just till 16 because the micro-16 is only capable of 16 bit
+        // [1] http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float
         int v = number;
 
         v--;
