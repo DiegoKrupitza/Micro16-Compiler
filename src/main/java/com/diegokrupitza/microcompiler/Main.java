@@ -38,7 +38,9 @@ public class Main {
     public static void main(String[] args) {
         setup();
 
+        //TODO this is quite ugly! should be read from command line
         String inputCode = readCode(INPUT_CODE_LOCATION);
+
         try {
             parseCode(inputCode);
         } catch (GeneratorException e) {
@@ -58,8 +60,6 @@ public class Main {
      */
     private static String readCode(String inputCodeLocation) {
         String inputCode = "";
-        //TODO this is quite ugly! should be read from command line
-
         try {
             inputCode = new String(Files.readAllBytes(Paths.get(inputCodeLocation)));
         } catch (IOException e) {
@@ -94,7 +94,7 @@ public class Main {
                 // in case the line is -> var [variableName] = [value]
                 Micro16Instruction micro16Instruction = new SimpleVariableMicro16Instruction(instructionString);
                 OUTPUT_BUILDER.append(micro16Instruction.microInstruction);
-            } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )(\\+)( )(\\d+)")) {
+            } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-])( )(\\d+)")) {
                 //TODO: change operation in regex to + or -
                 // in case the line is -> var [variableName] = [value1] + [value2]
                 Micro16Instruction micro16Instruction = new SimpleCalculatedMicro16Instruction(instructionString);

@@ -48,7 +48,7 @@ public class SimpleCalculatedMicro16Instruction extends Micro16Instruction {
         int tempVal = (operation.equals("+")) ? Integer.parseInt(leftValue) + Integer.parseInt(rightValue) : Integer.parseInt(leftValue) - Integer.parseInt(rightValue);
         this.value = tempVal + "";
 
-        log.info("Varname: {} \t Value: {}", variableName, value);
+        log.debug("Varname: {} \t Value: {}", variableName, value);
 
         generateInstruction();
     }

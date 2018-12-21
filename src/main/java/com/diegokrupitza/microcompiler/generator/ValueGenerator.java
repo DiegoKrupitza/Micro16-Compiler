@@ -1,6 +1,8 @@
 package com.diegokrupitza.microcompiler.generator;
 
+import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.helper.MathematicalHelper;
+import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 
 import java.util.Optional;
 
@@ -12,43 +14,35 @@ import java.util.Optional;
  */
 public class ValueGenerator {
 
+    public static final int MAX_POSITIV_NUMBER = 32767;
+    public static final int MAX_NEGATIV_NUMBER = -32768;
+
     /**
-     * Generates the Micro16 instructions to make a number. The result of that calculation is after that saved into the register AC
+     * Generates the Micro16 instructions to make a number.
+     * The result of that calculation is after that saved into the register AC
      *
      * @param value the number i want to have in my AC register
      * @return the code for generating that given number
      */
-    public static Optional<String> generateValue(int value) {
+    public static Optional<String> generateValue(int value) throws GeneratorException {
+
+        if (!isValidNumber(value)) {
+            throw new GeneratorException(ErrorMessages.VALUE_OUT_OF_RANGE);
+        }
+
         String returnString = "\nAC <- 0";
 
-        if (MathematicalHelper.isPowerOfTwo(value)) {
-            // you can generate a number by shifting if its a number made of power 2
-            // starting by writing the number 1 into AC
-            returnString += "\nAC <- 1";
+        int workValue = Math.abs(value);
 
-            // shifting the number 1 that often to reach the power I want to get
-            double powerOfTwo = MathematicalHelper.getPowerOfTwo(value);
-            for (int i = 0; i < powerOfTwo; i++) {
-                returnString += "\nAC <- lsh(AC)";
-            }
-        } else {
-            // finding the nearest power of two
-            double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(value);
+        // finding the nearest power of two
+        double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(workValue);
+        returnString += generateNearestPowerOfTwo((int) nearestPowerOfTwo);
 
-            // generating that nearest number
-            // starting by writing the number 1 into AC
-            returnString += "\nAC <- 1";
+        if (!MathematicalHelper.isPowerOfTwo(workValue)) {
+            // fixing the overhead, when the number is not a power of two
+            int difference = (int) (nearestPowerOfTwo - workValue);
 
-            // shifting the number 1 that often to reach the power I want to get
-            int powerOfTwo = (int) MathematicalHelper.getPowerOfTwo((int) nearestPowerOfTwo);
-            for (int i = 0; i < powerOfTwo; i++) {
-                returnString += "\nAC <- lsh(AC)";
-            }
-
-            // fixing the overhead
-            int difference = (int) (nearestPowerOfTwo - value);
-
-            // deciding of i have to subtrac 1 or add 1 ->
+            // deciding of i have to subtract 1 or add 1 ->
             // Example: 8 - 7 = 1
             // Example: 16 - 20 = -4
             boolean subtract = difference > 0;
@@ -59,7 +53,54 @@ public class ValueGenerator {
             }
         }
 
+        if (value < 0) {
+            // the micro16 cpu works in twos complement
+            // so to display negative values i have to  invert the value and add 1
+            returnString += convertToNegativeNumber();
+        }
+
         return Optional.of(returnString);
+    }
+
+    /**
+     * checks if a given number is in a valid range to work correctly in the micro16
+     *
+     * @param value the number to check
+     * @return true - when the number is valid
+     */
+    public static boolean isValidNumber(int value) {
+        return value >= MAX_NEGATIV_NUMBER && value <= MAX_POSITIV_NUMBER;
+    }
+
+    /**
+     * converts the value from the register into a negative one
+     *
+     * @return the instructions to get a negative number
+     */
+    public static String convertToNegativeNumber() {
+        String output = "\nAC <- ~AC\n";
+        output += "AC <- AC + 1\n";
+        return output;
+    }
+
+    /**
+     * Generates the micro 16 instructions to get to the nearest power of two number
+     *
+     * @param nearestPowerOfTwo the number to generate
+     * @return the micro 16 instructions to get to that certain number
+     */
+    public static String generateNearestPowerOfTwo(int nearestPowerOfTwo) {
+        String returnString = "";
+        // generating that nearest number
+        // starting by writing the number 1 into AC
+        returnString += "\nAC <- 1";
+
+        // shifting the number 1 that often to reach the power I want to get
+        int powerOfTwo = (int) MathematicalHelper.getPowerOfTwo(nearestPowerOfTwo);
+        for (int i = 0; i < powerOfTwo; i++) {
+            returnString += "\nAC <- lsh(AC)";
+        }
+        return returnString;
     }
 
 }
