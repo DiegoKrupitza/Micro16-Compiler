@@ -38,7 +38,6 @@ public class Main {
     public static void main(String[] args) {
         setup();
 
-        //TODO this is quite ugly! should be read from command line
         String inputCode = readCode(INPUT_CODE_LOCATION);
 
         try {
