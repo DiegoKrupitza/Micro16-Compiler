@@ -4,6 +4,8 @@ import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
+import com.diegokrupitza.microcompiler.exceptions.Micro16Exception;
+import com.diegokrupitza.microcompiler.helper.MathematicalHelper;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,37 +27,35 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
     private String variableName = "undefined";
     private String value = "undefined";
 
-    public SimpleVariableMicro16Instruction(String instructionString) throws GeneratorException {
+    public SimpleVariableMicro16Instruction(String instructionString) throws Micro16Exception {
         super(instructionString);
     }
 
     @Override
-    public void parseInstruction(String instruction) throws GeneratorException {
+    public void parseInstruction(String instruction) throws Micro16Exception {
         // Starting with a simple instructions -> var a = 4;
         String[] splitedInstruction = instruction.split(" ");
 
         this.variableName = splitedInstruction[1];
         this.value = splitedInstruction[3];
 
-        if (instruction.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-])( )(\\d+)")) {
+        if (instruction.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-/*])( )(\\d+)")) {
             int leftValue = Integer.parseInt(splitedInstruction[3]);
             String operation = splitedInstruction[4];
             int rightValue = Integer.parseInt(splitedInstruction[5]);
 
-            // deciding if its a plus or minus operations
+            // deciding what operation you should use
             // based on the result there is a chance to optimize the calculation already before compiling
-            int tempVal = ("+".equals(operation)) ? leftValue + rightValue : leftValue - rightValue;
+            int tempVal = MathematicalHelper.getBinaryOperationResult(leftValue, operation, rightValue);
 
             this.value = tempVal + "";
         }
 
         log.debug("Varname: {} \t Value: {}", variableName, value);
-
-        generateInstruction();
     }
 
     @Override
-    void generateInstruction() throws GeneratorException {
+    void generateInstruction() throws Micro16Exception {
         // check if there enought space in my registers
         Optional<String> optionalRegister = Main.STORAGE_HANDLER.reserveRegister();
 
@@ -86,6 +86,5 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
                 .build();
 
         StorageHandler.addVariable(variable);
-
     }
 }

@@ -8,9 +8,6 @@ package com.diegokrupitza.microcompiler.helper;
  */
 public class MathematicalHelper {
 
-    private MathematicalHelper() {
-    }
-
     /**
      * checks if a number is a result of power 2
      *
@@ -54,9 +51,28 @@ public class MathematicalHelper {
 
         // previous power of 2
         int x = v >> 1;
-
         return (v - number) > (number - x) ? x : v;
-
     }
 
+    /**
+     * Calculates the values based on an operation that is given as a string
+     *
+     * @param leftValue  one of the two values
+     * @param operation  the operation you choose
+     * @param rightValue one of the two values
+     * @return the result of that operation
+     */
+    public static int getBinaryOperationResult(int leftValue, String operation, int rightValue) {
+        int tempVal;
+        if ("+".equals(operation)) {
+            tempVal = leftValue + rightValue;
+        } else if ("-".equals(operation)) {
+            tempVal = leftValue - rightValue;
+        } else if ("*".equals(operation)) {
+            tempVal = leftValue * rightValue;
+        } else {
+            tempVal = (int) Math.floor(leftValue / rightValue);
+        }
+        return tempVal;
+    }
 }

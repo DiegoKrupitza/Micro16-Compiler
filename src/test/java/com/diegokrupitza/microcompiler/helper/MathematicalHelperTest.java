@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MathematicalHelperTest {
 
     @Test
-    void getNearestPowerOfTwo() {
+    public void getNearestPowerOfTwo() {
         double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(6);
         assertThat(nearestPowerOfTwo).isEqualTo(8);
 
@@ -22,7 +22,7 @@ class MathematicalHelperTest {
     }
 
     @Test
-    void isPowerOfTwoTest() {
+    public void isPowerOfTwoTest() {
         boolean powerOfTwo = MathematicalHelper.isPowerOfTwo(64);
         assertThat(powerOfTwo).isEqualTo(true);
 

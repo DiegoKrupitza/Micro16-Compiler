@@ -4,17 +4,17 @@ import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 
 /**
  * Project: micro16-compiler
- * Document: GeneratorException.java
+ * Document: Micro16Exception.java
  * Author: Diego Krupitza
- * Created: 20.12.18
+ * Created: 21.12.18
  */
-public class GeneratorException extends Micro16Exception {
+public abstract class Micro16Exception extends Exception {
 
-    public GeneratorException(String message) {
+    public Micro16Exception(String message) {
         super(message);
     }
 
-    public GeneratorException(ErrorMessages messages) {
+    public Micro16Exception(ErrorMessages messages) {
         super(messages.toString());
     }
 

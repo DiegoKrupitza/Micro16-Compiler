@@ -3,3 +3,5 @@
 var a = 4
 var b = 4 + 2
 var c = 4 - 2
+
+var d = 128 / 3

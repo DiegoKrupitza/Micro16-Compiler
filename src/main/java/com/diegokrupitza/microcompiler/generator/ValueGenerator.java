@@ -17,15 +17,13 @@ public class ValueGenerator {
     public static final int MAX_POSITIV_NUMBER = 32767;
     public static final int MAX_NEGATIV_NUMBER = -32768;
 
-    private ValueGenerator() {
-    }
-
     /**
      * Generates the Micro16 instructions to make a number.
      * The result of that calculation is after that saved into the register AC
      *
      * @param value the number i want to have in my AC register
      * @return the code for generating that given number
+     * @throws GeneratorException
      */
     public static Optional<String> generateValue(int value) throws GeneratorException {
         StringBuilder returnString = new StringBuilder();

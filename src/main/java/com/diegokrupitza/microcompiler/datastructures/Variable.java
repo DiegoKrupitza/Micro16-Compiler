@@ -19,5 +19,4 @@ public class Variable {
     private String value;
     private boolean isInRegister;
     private String registerName;
-
 }

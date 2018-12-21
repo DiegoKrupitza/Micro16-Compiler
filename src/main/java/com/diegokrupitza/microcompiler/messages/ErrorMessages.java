@@ -24,7 +24,19 @@ public enum ErrorMessages {
     /**
      * The Error message in case someone wants to define a number that is not possible to store in micro16
      */
-    VALUE_OUT_OF_RANGE("The number you want to store into a variable is not possible! The value has to be in a range from " + ValueGenerator.MAX_NEGATIV_NUMBER + " to " + ValueGenerator.MAX_POSITIV_NUMBER);
+    VALUE_OUT_OF_RANGE("The number you want to store into a variable is not possible! The value has to be in a range from " + ValueGenerator.MAX_NEGATIV_NUMBER + " to " + ValueGenerator.MAX_POSITIV_NUMBER),
+    /**
+     * The Error message in case someone creates a variable that already exists
+     */
+    VARIABLE_ALREADY_EXISTS("Variable %s on line %d already exists!"),
+    /**
+     * The Error message in case the file extension is not correct
+     */
+    INVALID_FILE_EXTENSION("The file extensions is not correct!"),
+    /**
+     *
+     */
+    VARIABLE_DOES_NOT_EXISTS("The Variable %s on line %d does not exists");
 
 
     private String message;

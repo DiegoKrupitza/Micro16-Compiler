@@ -4,3 +4,5 @@ In this language there are five ways to define a variable:
 3. var [variableName] = [variableName]
 4. var [variableName] = [variableName1] [operation] [variableName2]
 5. var [variableName] = [variableName1] [operation] [value]
+
+Variables in this language are case sensitive
