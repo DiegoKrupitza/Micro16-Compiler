@@ -3,6 +3,7 @@ package com.diegokrupitza.microcompiler.generator;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.helper.MathematicalHelper;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Optional;
 
@@ -57,10 +58,11 @@ public class ValueGenerator {
         if (value < 0) {
             // the micro16 cpu works in twos complement
             // so to display negative values i have to  invert the value and add 1
-            returnString.append(convertToNegativeNumber());
+            returnString.append(convertToNegativeNumber("AC"));
         }
 
-        return Optional.of(returnString.toString());
+        String returnElement = StringUtils.isBlank(returnString.toString()) ? null : returnString.toString();
+        return Optional.ofNullable(returnElement);
     }
 
     /**
@@ -78,9 +80,9 @@ public class ValueGenerator {
      *
      * @return the instructions to get a negative number
      */
-    public static String convertToNegativeNumber() {
-        return "\nAC <- ~AC\n" +
-                "AC <- AC + 1\n";
+    public static String convertToNegativeNumber(String register) {
+        return "\n" + register + " <- ~" + register + "\n" +
+                register + " <- " + register + " + 1\n";
     }
 
     /**

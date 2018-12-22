@@ -2,7 +2,6 @@ package com.diegokrupitza.microcompiler.datastructures;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -37,7 +36,5 @@ class StorageHandlerTest {
         Arrays.stream(registers).forEach(
                 item -> assertThat(storageHandler.getRegisterName(item)).isEqualToIgnoringCase("R" + ++item)
         );
-
-        assertThat(storageHandler.getRegisterName(10)).isEqualToIgnoringCase("PC");
     }
 }

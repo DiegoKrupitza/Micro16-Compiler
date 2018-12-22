@@ -14,19 +14,19 @@ import java.util.Optional;
 
 /**
  * Project: micro16-compiler
- * Document: AdvancedVariableMicro16Instruction.java
+ * Document: VariableICopyMicro16Instruction.java
  * Author: Diego Krupitza
  * Created: 21.12.18
  */
 @Slf4j
 @Getter
 @Setter
-public class AdvancedVariableMicro16Instruction extends Micro16Instruction {
+public class VariableICopyMicro16Instruction extends Micro16Instruction {
 
     private String variableName = "undefined";
     private String referencedVariable = "undefined";
 
-    public AdvancedVariableMicro16Instruction(String instructionString) throws Micro16Exception {
+    public VariableICopyMicro16Instruction(String instructionString) throws Micro16Exception {
         super(instructionString);
     }
 

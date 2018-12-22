@@ -8,6 +8,16 @@
     <artifactId>micro16-compiler</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>Micro16-compiler</name>
+
+    <developers>
+        <developer>
+            <name>Diego Krupitza</name>
+            <email>info@diegokrupitza.com</email>
+            <url>https://diegokrupitza.com</url>
+        </developer>
+    </developers>
+
     <properties>
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.16.20</lombok.version>

@@ -19,7 +19,7 @@ import java.util.Optional;
 public class StorageHandler {
 
     public static final int MEMORY_START_ADDR = 0x0000;
-    protected static final boolean[] REGISTER_USE = new boolean[11];
+    protected static final boolean[] REGISTER_USE = new boolean[10];
     private static List<Variable> variableList = new ArrayList<>();
 
     /**
@@ -47,7 +47,7 @@ public class StorageHandler {
     public static String getVariableLocation(String variableName) throws VariableException {
         if (!variableExist(variableName)) {
             //TODO: check if variable is in memory
-            //  till this is implemented i just throw an exception
+            //  till this is implemented an exception is thrown
             throw new VariableException(String.format(ErrorMessages.VARIABLE_DOES_NOT_EXISTS.toString(), variableName, Main.CODE_LINE));
         }
 
@@ -94,9 +94,7 @@ public class StorageHandler {
      */
     public String getRegisterName(int registerId) {
         String returnString = null;
-        if (registerId == 10) {
-            returnString = "PC";
-        } else if (registerId >= 0) {
+        if (registerId >= 0) {
             // every other found register
             registerId++;
             returnString = "R" + registerId;

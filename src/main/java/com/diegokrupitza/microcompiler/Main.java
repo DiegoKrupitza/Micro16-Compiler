@@ -3,9 +3,10 @@ package com.diegokrupitza.microcompiler;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.exceptions.FileException;
 import com.diegokrupitza.microcompiler.exceptions.Micro16Exception;
-import com.diegokrupitza.microcompiler.generator.AdvancedVariableMicro16Instruction;
+import com.diegokrupitza.microcompiler.generator.AdvancedVariableICopyMicro16Instruction;
 import com.diegokrupitza.microcompiler.generator.Micro16Instruction;
 import com.diegokrupitza.microcompiler.generator.SimpleVariableMicro16Instruction;
+import com.diegokrupitza.microcompiler.generator.VariableICopyMicro16Instruction;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,7 +80,14 @@ public class Main {
             } else if (instructionString.matches("((var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(?:[a-z][a-z0-9_]*))")) {
                 // normal copying var
                 // example var [variableName1] = [variableName2]
-                Micro16Instruction micro16Instruction = new AdvancedVariableMicro16Instruction(instructionString);
+                Micro16Instruction micro16Instruction = new VariableICopyMicro16Instruction(instructionString);
+                OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
+            } else if (instructionString.matches("(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )((?:[a-z][a-z0-9_]*))( )([+-/*])( )(\\d+)|(var)( )((?:[a-z][a-z0-9_]*))( )(=)( )(\\d+)( )([+-/*])( )((?:[a-z][a-z0-9_]*))")) {
+                // copy the value of a var and combines that with a normal value
+                // var [variableName1] = [variableName2] [operation] [value]
+                // or
+                // var [variableName1] = [value] [operation] [variableName2]
+                Micro16Instruction micro16Instruction = new AdvancedVariableICopyMicro16Instruction(instructionString);
                 OUTPUT_BUILDER.append(micro16Instruction.getMicroInstruction());
             }
         }
