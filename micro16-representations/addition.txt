@@ -1,0 +1,10 @@
+#########################
+## Addition of 1 and 4 ##
+#########################
+
+# The result is at the end in register AC
+
+R1 <- 1   # the register to add 
+AC <- lsh(1 + 1) # the value I want to add by 
+
+AC <- R1 + AC

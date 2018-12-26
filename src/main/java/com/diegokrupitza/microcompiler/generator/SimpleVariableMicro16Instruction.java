@@ -57,9 +57,9 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
     @Override
     void generateInstruction() throws Micro16Exception {
         // check if there enought space in my registers
-        Optional<String> optionalRegister = Main.STORAGE_HANDLER.reserveRegister();
+        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
 
-        if (!optionalRegister.isPresent()) {
+        if (!currentWorkRegister.isPresent()) {
             //TODO: try to free up some space by moving some values into the memory, so there is no exception to throw
             throw new GeneratorException(ErrorMessages.NO_REGISTER_AVAILABLE);
         }
@@ -72,7 +72,7 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
         }
 
         // generating the micro instruction based on the register name and generated value
-        String registerName = optionalRegister.get();
+        String registerName = currentWorkRegister.get();
         String valueGeneratorCode = optionalValueGeneratorCode.get();
 
         setMicroInstruction(valueGeneratorCode + "\n" + registerName + " <- AC\n");

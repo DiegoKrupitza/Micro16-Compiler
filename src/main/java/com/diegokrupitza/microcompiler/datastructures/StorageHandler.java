@@ -22,6 +22,8 @@ public class StorageHandler {
     protected static final boolean[] REGISTER_USE = new boolean[10];
     private static List<Variable> variableList = new ArrayList<>();
 
+
+
     /**
      * Adds a new variable to the Storagehandler
      *

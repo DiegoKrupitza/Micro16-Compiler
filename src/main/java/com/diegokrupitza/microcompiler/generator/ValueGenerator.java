@@ -23,7 +23,8 @@ public class ValueGenerator {
      * The result of that calculation is after that saved into the register AC
      *
      * @param value the number i want to have in my AC register
-     * @return the code for generating that given number
+     * @return the code for generating that given number.
+     * The result of that generated value is located at the register AC
      * @throws GeneratorException
      */
     public static Optional<String> generateValue(int value) throws GeneratorException {
@@ -89,7 +90,8 @@ public class ValueGenerator {
      * Generates the micro 16 instructions to get to the nearest power of two number
      *
      * @param nearestPowerOfTwo the number to generate
-     * @return the micro 16 instructions to get to that certain number
+     * @return the micro 16 instructions to get to that certain number.
+     * The result of that is located at the register AC
      */
     public static String generateNearestPowerOfTwo(int nearestPowerOfTwo) {
         StringBuilder returnString = new StringBuilder();

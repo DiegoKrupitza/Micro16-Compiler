@@ -1,0 +1,18 @@
+###############################
+## Multiplication of 1 and 4 ## 
+###############################
+
+# The result is at the end in register AC
+
+R1 <- 1   # the register to multiply
+AC <- lsh(1 + 1) # the value i want to multiply by 
+
+:loop
+AC; if Z goto .end
+PC <- PC + R1
+AC <- AC + -1
+
+
+goto .loop
+:end  
+AC <- PC

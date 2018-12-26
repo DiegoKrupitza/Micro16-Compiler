@@ -1,5 +1,8 @@
 package com.diegokrupitza.microcompiler.helper;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Project: micro16-compiler
  * Document: MathematicalHelper.java
@@ -74,5 +77,18 @@ public class MathematicalHelper {
             tempVal = (int) Math.floor(leftValue / rightValue);
         }
         return tempVal;
+    }
+
+    /**
+     * Generating a random array of 256 bit (32 byte)
+     *
+     * @return the randomly generated array
+     */
+    public static byte[] generateRandom32Byte() {
+        Random random = ThreadLocalRandom.current();
+        byte[] randomBytes = new byte[32];
+        random.nextBytes(randomBytes);
+
+        return randomBytes;
     }
 }

@@ -36,8 +36,15 @@ public enum ErrorMessages {
     /**
      *
      */
-    VARIABLE_DOES_NOT_EXISTS("The Variable %s on line %d does not exists");
-
+    VARIABLE_DOES_NOT_EXISTS("The Variable %s on line %d does not exists"),
+    /**
+     * The Error message in case the multiplication is not possible
+     */
+    CANNOT_GENERATE_MULTIPLICATION("The multiplication instruction you want to generate is not possible"),
+    /**
+     * The Error message in case the addition of the values is not possible
+     */
+    CANNOT_GENERATE_ADDITION("The addition instruction you want to generate is not possible");
 
     private String message;
 

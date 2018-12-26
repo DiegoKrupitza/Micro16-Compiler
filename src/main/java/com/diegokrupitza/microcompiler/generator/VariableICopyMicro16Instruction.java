@@ -43,18 +43,18 @@ public class VariableICopyMicro16Instruction extends Micro16Instruction {
     public void generateInstruction() throws Micro16Exception {
 
         // check if there enought space in my registers
-        Optional<String> optionalRegister = Main.STORAGE_HANDLER.reserveRegister();
+        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
 
-        if (!optionalRegister.isPresent()) {
+        if (!currentWorkRegister.isPresent()) {
             //TODO: try to free up some space by moving some values into the memory, so there is no exception to throw
             throw new GeneratorException(ErrorMessages.NO_REGISTER_AVAILABLE);
         }
         String variableLocation = StorageHandler.getVariableLocation(this.referencedVariable);
 
-        setMicroInstruction(optionalRegister.get() + " <- " + variableLocation + "\n");
+        setMicroInstruction(currentWorkRegister.get() + " <- " + variableLocation + "\n");
 
         Variable variable = Variable.builder()
-                .registerName(optionalRegister.get())
+                .registerName(currentWorkRegister.get())
                 .name(this.getVariableName())
                 .isInRegister(true)
                 .value("Read from other register")
