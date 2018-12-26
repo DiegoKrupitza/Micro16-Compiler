@@ -145,4 +145,37 @@ class AdvancedVariableICopyMicro16InstructionTest {
         assertThat(result.trim().split("\n").length).isEqualTo(randomExpectation.split("\n").length);
     }
 
+    @Test
+    public void multiplicationNegativNumberTest() throws Micro16Exception {
+        String inputInstruction = "var a = 5\n";
+        inputInstruction += "var b = a * -2";
+
+        String randomExpectation = "AC <- 0\n" +
+                "AC <- 1\n" +
+                "AC <- lsh(AC)\n" +
+                "AC <- lsh(AC)\n" +
+                "AC <- AC + 1\n" +
+                "R1 <- AC\n" +
+                "\n" +
+                "AC <- 0\n" +
+                "AC <- 1\n" +
+                "AC <- lsh(AC)\n" +
+                "\n" +
+                ":multiplyTMIRQW4FKT3TUDP5GYKG7LT6JRMJRFGSDS7WOBCX3QYZHII6QBUA\n" +
+                "AC; if Z goto .endmultiplyTMIRQW4FKT3TUDP5GYKG7LT6JRMJRFGSDS7WOBCX3QYZHII6QBUA\n" +
+                "PC <- PC + R1\n" +
+                "AC <- AC + -1\n" +
+                "goto .multiplyTMIRQW4FKT3TUDP5GYKG7LT6JRMJRFGSDS7WOBCX3QYZHII6QBUA\n" +
+                ":endmultiplyTMIRQW4FKT3TUDP5GYKG7LT6JRMJRFGSDS7WOBCX3QYZHII6QBUA\n" +
+                "AC <- PC\n" +
+                "AC <- ~AC\n" +
+                "AC <- AC + 1\n" +
+                "R2 <- AC";
+
+        codeInspector.parseCode(inputInstruction);
+        String result = codeInspector.getOUTPUT_BUILDER().toString().trim();
+
+        assertThat(result.trim().split("\n").length).isEqualTo(randomExpectation.split("\n").length);
+    }
+
 }

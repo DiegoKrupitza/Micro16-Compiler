@@ -58,7 +58,7 @@ public class ValueGenerator {
 
         if (value < 0) {
             // the micro16 cpu works in twos complement
-            // so to display negative values i have to  invert the value and add 1
+            // so to display negative values i have to invert the value and add 1
             returnString.append(convertToNegativeNumber("AC"));
         }
 

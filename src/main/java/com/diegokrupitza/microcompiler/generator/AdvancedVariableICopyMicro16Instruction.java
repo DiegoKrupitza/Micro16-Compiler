@@ -96,12 +96,32 @@ public class AdvancedVariableICopyMicro16Instruction extends Micro16Instruction 
                 instructions.append(" +");
                 instructions.append(" AC");
             } else if ("*".equals(getOperation())) {
-                //TODO
+
+                // mulitplication with a negative number is easier calculation without the negative number
+                // and then negate the result
+                // PART 1
+                if (addedValue < 0) {
+                    // deleting the last two rows because that the place where the number is negated
+                    int last = instructions.lastIndexOf("AC <- ~AC");
+                    instructions.delete(last, instructions.length());
+
+                }
+
                 Optional<String> optionalMultiplyInstructions = OperationHandler.generateMultiplication(referecedVariableLocation);
                 if (!optionalMultiplyInstructions.isPresent()) {
                     throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MULTIPLICATION);
                 }
                 instructions.append(optionalMultiplyInstructions.get());
+
+                // mulitplication with a negative number is easier calculation without the negative number
+                // and then negate the result
+                // PART 2
+                if (addedValue < 0) {
+                    // negating the number so the result is still correct
+                    instructions.append("AC <- ~AC\n");
+                    instructions.append("AC <- AC + 1");
+                }
+
                 instructions.append("\n").append(currentWorkRegister.get()).append(" <- AC");
             } else if ("/".equals(getOperation())) {
                 //TODO

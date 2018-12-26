@@ -30,7 +30,7 @@ public class OperationHandler {
 
         instruction.append("\n:").append(multiplyLoopLabel);
         instruction.append("\nAC; if Z goto .").append(endMultiplyLoopLabel);
-        instruction.append("\nPC <- PC + " + variableLocation);
+        instruction.append("\nPC <- PC + ").append(variableLocation);
         instruction.append("\nAC <- AC + -1");
         instruction.append("\ngoto .").append(multiplyLoopLabel);
         instruction.append("\n:").append(endMultiplyLoopLabel);
