@@ -5,8 +5,7 @@ import com.diegokrupitza.microcompiler.exceptions.VariableException;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Optional;
 
 /**
@@ -20,19 +19,17 @@ public class StorageHandler {
 
     public static final int MEMORY_START_ADDR = 0x0000;
     protected static final boolean[] REGISTER_USE = new boolean[10];
-    private static List<Variable> variableList = new ArrayList<>();
-
-
+    private static LinkedList<Variable> variableList = new LinkedList<>();
 
     /**
      * Adds a new variable to the Storagehandler
      *
      * @param variable the variable object to add
-     * @throws VariableException
+     * @throws VariableException when the variable already exists
      */
     public static void addVariable(Variable variable) throws VariableException {
         if (!variableExist(variable.getName())) {
-            variableList.add(variable);
+            variableList.addFirst(variable);
         } else {
             String message = String.format(ErrorMessages.VARIABLE_ALREADY_EXISTS.toString(), variable.getName(), Main.CODE_LINE);
             throw new VariableException(message);
@@ -44,17 +41,23 @@ public class StorageHandler {
      *
      * @param variableName the name of the variable
      * @return the location of that variable
-     * @throws VariableException
+     * @throws VariableException in case the variable is not existing
      */
     public static String getVariableLocation(String variableName) throws VariableException {
         if (!variableExist(variableName)) {
-            //TODO: check if variable is in memory
-            //  till this is implemented an exception is thrown
             throw new VariableException(String.format(ErrorMessages.VARIABLE_DOES_NOT_EXISTS.toString(), variableName, Main.CODE_LINE));
         }
 
-        // variable names a case sensitive
+        // variable names are case sensitive
         Variable variable = getVariableList().stream().filter(item -> item.getName().equals(variableName)).findFirst().get();
+
+        if (!variable.isInRegister()) {
+            // the var is in the memory that means i have to search for that in the memory
+            //TODO: implement memory search
+        }
+
+        // for further variable analysis
+        variable.setAccessCount(variable.getAccessCount() + 1);
         return variable.getRegisterName();
     }
 
@@ -72,7 +75,7 @@ public class StorageHandler {
         return REGISTER_USE;
     }
 
-    public static List<Variable> getVariableList() {
+    public static LinkedList<Variable> getVariableList() {
         return variableList;
     }
 
@@ -84,6 +87,7 @@ public class StorageHandler {
      */
     public Optional<String> reserveRegister() {
         int registerId = getFirstFreeRegister();
+
         String returnRegister = getRegisterName(registerId);
         return Optional.ofNullable(returnRegister);
     }
@@ -105,20 +109,30 @@ public class StorageHandler {
     }
 
     /**
-     * Searches for the first free register.
+     * Searches for the first free register and registers it
      * If there is no than you get the min value of Integer
      *
-     * @return the index of the register
+     * @return the index of the register. If there is no free register
+     * the return value is <code>Integer.MIN_VALUE</code>
      */
     private int getFirstFreeRegister() {
         int registerId = Integer.MIN_VALUE;
         for (int i = 0; i < REGISTER_USE.length; i++) {
             if (!REGISTER_USE[i]) {
+                // reserving the first found
                 REGISTER_USE[i] = true;
                 registerId = i;
                 break;
             }
         }
         return registerId;
+    }
+
+    public String freeUpRegister() {
+        StringBuilder instructions = new StringBuilder();
+        Variable lastVariable = getVariableList().getLast();
+        //TODO outsource into memory
+
+        return instructions.toString();
     }
 }

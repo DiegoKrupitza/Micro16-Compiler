@@ -12,7 +12,7 @@ public enum ErrorMessages {
     /**
      * The Error message in case the given file does not get found
      */
-    FILE_NOTEXIST("The file you want to access does not exists!"),
+    FILE_NOTEXIST("The file you want to accessCount does not exists!"),
     /**
      * The Error message in case there is no Register available
      */

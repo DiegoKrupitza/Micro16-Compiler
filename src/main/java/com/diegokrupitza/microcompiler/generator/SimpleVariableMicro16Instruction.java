@@ -60,6 +60,7 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
         Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
 
         if (!currentWorkRegister.isPresent()) {
+            String freeUpInstructions = Main.STORAGE_HANDLER.freeUpRegister();
             //TODO: try to free up some space by moving some values into the memory, so there is no exception to throw
             throw new GeneratorException(ErrorMessages.NO_REGISTER_AVAILABLE);
         }

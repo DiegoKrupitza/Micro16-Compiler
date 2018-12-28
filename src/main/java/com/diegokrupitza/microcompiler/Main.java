@@ -19,7 +19,7 @@ import java.util.Arrays;
 @Setter
 public class Main {
 
-    public static final String INPUT_CODE_LOCATION = "samplecode/advanced-variables.mcr";
+    public static final String INPUT_CODE_LOCATION = "samplecode/variable-outsourcing.mcr";
 
     // For later improvements like storage management.
     // For example when all the 10 registers are already filled and you want to save a another variable.

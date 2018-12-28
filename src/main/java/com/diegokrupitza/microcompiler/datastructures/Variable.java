@@ -17,6 +17,8 @@ public class Variable {
 
     private String name;
     private String value;
-    private boolean isInRegister;
+    private boolean isInRegister = false;
     private String registerName;
+    private int accessCount = 0;
+
 }

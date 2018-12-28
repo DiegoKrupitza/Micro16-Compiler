@@ -1,0 +1,6 @@
+When there is no space in the registers and there is a need for space, you have to free up some space.
+The strategy here is to use a queue. After each new variable use, it gets added to the queue.
+When there is no space in the registers, the oldest variable gets outsourced.
+
+Newest variable is the first one
+Oldest variable is the last one
