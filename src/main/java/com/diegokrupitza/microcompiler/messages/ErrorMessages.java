@@ -44,7 +44,15 @@ public enum ErrorMessages {
     /**
      * The Error message in case the addition of the values is not possible
      */
-    CANNOT_GENERATE_ADDITION("The addition instruction you want to generate is not possible");
+    CANNOT_GENERATE_ADDITION("The addition instruction you want to generate is not possible"),
+    /**
+     * The Error message in case there is no free Memory address
+     */
+    NO_FREE_MEMORYADDRESS("There is no free Memory Address in the current program state! You can change the maximum memory range, but its not adviced to use more than the default value! "),
+    /**
+     * The Error message in case there is a problem with generating a number
+     */
+    CANNOT_GENERATE_MEMORY_NUMBER("The memory address that has to be generated is not possible!");
 
     private String message;
 

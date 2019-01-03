@@ -74,7 +74,7 @@ public class MathematicalHelper {
         } else if ("*".equals(operation)) {
             tempVal = leftValue * rightValue;
         } else {
-            tempVal = (int) Math.floor(leftValue / rightValue);
+            tempVal = (int) (leftValue / rightValue);
         }
         return tempVal;
     }

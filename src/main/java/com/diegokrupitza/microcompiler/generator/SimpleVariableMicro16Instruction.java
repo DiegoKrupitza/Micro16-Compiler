@@ -1,6 +1,7 @@
 package com.diegokrupitza.microcompiler.generator;
 
 import com.diegokrupitza.microcompiler.Main;
+import com.diegokrupitza.microcompiler.datastructures.OutsourcedRegister;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
@@ -56,13 +57,24 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
 
     @Override
     void generateInstruction() throws Micro16Exception {
-        // check if there enought space in my registers
-        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
+        StringBuilder instruction = new StringBuilder();
 
+        String registerName = null;
+
+        // check if there enought space in my registers
+        // getting the name of the to use register
+        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
         if (!currentWorkRegister.isPresent()) {
-            String freeUpInstructions = Main.STORAGE_HANDLER.freeUpRegister();
-            //TODO: try to free up some space by moving some values into the memory, so there is no exception to throw
-            throw new GeneratorException(ErrorMessages.NO_REGISTER_AVAILABLE);
+            OutsourcedRegister outsourcedRegister = Main.STORAGE_HANDLER.freeUpRegister();
+
+            registerName = outsourcedRegister.getRegisterName();
+            String outsourceInstructions = outsourcedRegister.getInstruction();
+
+            // adding the outsource instruction to the instruction set
+            instruction.append(outsourceInstructions)
+                    .append("\n");
+        } else {
+            registerName = currentWorkRegister.get();
         }
 
         // try to generate the number i want to save in my variable
@@ -72,11 +84,13 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
             throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_NUMBER);
         }
 
-        // generating the micro instruction based on the register name and generated value
-        String registerName = currentWorkRegister.get();
         String valueGeneratorCode = optionalValueGeneratorCode.get();
 
-        setMicroInstruction(valueGeneratorCode + "\n" + registerName + " <- AC\n");
+        // generating the micro instruction based on the register name and generated value
+        instruction.append(valueGeneratorCode)
+                .append("\n")
+                .append(registerName)
+                .append(" <- AC\n");
 
         // saving the generated information into the list of all defined variables
         Variable variable = Variable.builder()
@@ -87,5 +101,7 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
                 .build();
 
         StorageHandler.addVariable(variable);
+
+        setMicroInstruction(instruction.toString());
     }
 }

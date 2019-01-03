@@ -28,14 +28,22 @@ public class ValueGenerator {
      * @throws GeneratorException
      */
     public static Optional<String> generateValue(int value) throws GeneratorException {
+        //TODO: log more of the process
+        // TODO: think if its intelligent to use Optional
         StringBuilder returnString = new StringBuilder();
         if (!isValidNumber(value)) {
             throw new GeneratorException(ErrorMessages.VALUE_OUT_OF_RANGE);
         }
 
+        int workValue = Math.abs(value);
+
         returnString.append("\nAC <- 0");
 
-        int workValue = Math.abs(value);
+        // exit because 0 does not need more calculation
+        // this is just because I want to save some steps
+        if (workValue == 0) {
+            return Optional.of(returnString.toString());
+        }
 
         // finding the nearest power of two
         double nearestPowerOfTwo = MathematicalHelper.getNearestPowerOfTwo(workValue);

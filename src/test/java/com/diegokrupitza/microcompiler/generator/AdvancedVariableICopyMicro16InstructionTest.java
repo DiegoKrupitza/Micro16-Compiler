@@ -19,7 +19,7 @@ class AdvancedVariableICopyMicro16InstructionTest {
 
         // cleaning all the mess that happens after generating a code
         // removing all the variables
-        StorageHandler.getVariableList().clear();
+        StorageHandler.getVariableRegisterStack().clear();
 
         // opening all the registers
         for (int i = 0; i < StorageHandler.getRegisterUse().length; i++) {

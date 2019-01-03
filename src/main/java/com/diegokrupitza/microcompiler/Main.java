@@ -49,6 +49,11 @@ public class Main {
      * Prepares the compiler for parsing and generating the Micro-16 code
      */
     private static void setup() {
+
+        //TODO: memory advanced settings by using an argument flag
+        //setting the use of all memory addresses to false
+        Arrays.fill(StorageHandler.getMemoryUse(), false);
+
         //setting use of all register to false
         Arrays.fill(StorageHandler.getRegisterUse(), false);
     }

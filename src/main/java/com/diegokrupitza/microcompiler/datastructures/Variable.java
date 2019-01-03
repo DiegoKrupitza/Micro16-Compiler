@@ -2,6 +2,7 @@ package com.diegokrupitza.microcompiler.datastructures;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -15,10 +16,18 @@ import lombok.ToString;
 @ToString
 public class Variable {
 
+    @NonNull
     private String name;
-    private String value;
-    private boolean isInRegister = false;
-    private String registerName;
-    private int accessCount = 0;
 
+    @NonNull
+    private String value;
+
+    private boolean isInRegister = false;
+
+    @NonNull
+    private String registerName;
+
+    private int memoryAddress = -1;
+
+    private int accessCount = 0;
 }

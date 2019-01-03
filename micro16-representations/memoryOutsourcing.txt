@@ -1,0 +1,13 @@
+##############################
+## Writing the value 4 into ##
+## Memory and fetch it back ##
+##############################
+R10 <- lsh(1 + 1)
+
+MAR <- 1
+MBR <- R10; wr
+wr
+
+MAR <- 	1; rd
+rd;
+R1 <- MBR
