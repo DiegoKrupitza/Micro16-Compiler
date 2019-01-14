@@ -5,8 +5,10 @@ import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 /**
  * Project: micro16-compiler
  * Document: ErrorMessages.java
- * Author: Diego Krupitza
- * Created: 12.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 12.12.18
  */
 public enum ErrorMessages {
     /**

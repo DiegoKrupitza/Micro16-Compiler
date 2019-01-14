@@ -15,8 +15,10 @@ import java.util.Optional;
 /**
  * Project: micro16-compiler
  * Document: StorageHandler.java
- * Author: Diego Krupitza
- * Created: 12.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 12.12.18
  */
 @Getter
 @Slf4j
@@ -196,19 +198,10 @@ public class StorageHandler {
         int memAddress = convertToMemoryAddress(addressId);
         log.info("Outsource location of {} is {} in memory", registerName, memAddress);
 
-        // we have to generate the value of the address into the AC register
-        // because the micro16 is not able to direct address
-        Optional<String> optionalValue = ValueGenerator.generateValue(memAddress);
-        if (!optionalValue.isPresent()) {
-            throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MEMORY_NUMBER);
-        }
+        // the instruction to move the value from reg into memory
 
-        instructions.append("\n")
-                .append(optionalValue.get())
-                .append("\n")
-                .append("MAR <- AC\n")
-                .append("MBR <- ").append(registerName).append("; wr\n")
-                .append("wr\n");
+        String moveIntoMemoryInstruction = moveIntoMemory(registerName, memAddress);
+        instructions.append(moveIntoMemoryInstruction);
 
         // setting the correct information of that variable
         lastVariable.setInRegister(false);
@@ -226,6 +219,35 @@ public class StorageHandler {
 
         return returnOutsourcedRegister;
     }
+
+    /**
+     * Moves the value from one register into the memory at a certain address
+     *
+     * @param registerName the register to move in
+     * @param memAddress   the address where to store the value from the register
+     * @return the instructions to move the value from a register into the <code>memAddress</code> memory address
+     * @throws GeneratorException thrown in case the <code>memAddress</code> cannot be generated
+     */
+    public String moveIntoMemory(String registerName, int memAddress) throws GeneratorException {
+        StringBuilder instructions = new StringBuilder();
+
+        // we have to generate the value of the address into the AC register
+        // because the micro16 is not able to direct address
+        Optional<String> optionalValue = ValueGenerator.generateValue(memAddress);
+        if (!optionalValue.isPresent()) {
+            throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MEMORY_NUMBER);
+        }
+
+        instructions.append("\n")
+                .append(optionalValue.get())
+                .append("\n")
+                .append("MAR <- AC\n")
+                .append("MBR <- ").append(registerName).append("; wr\n")
+                .append("wr\n");
+
+        return instructions.toString();
+    }
+
 
     /**
      * Gets the oldest not used variable that is not the the memory.

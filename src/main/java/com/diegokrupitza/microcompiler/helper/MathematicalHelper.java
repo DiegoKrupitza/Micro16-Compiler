@@ -6,8 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Project: micro16-compiler
  * Document: MathematicalHelper.java
- * Author: Diego Krupitza
- * Created: 20.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 20.12.18
  */
 public class MathematicalHelper {
 

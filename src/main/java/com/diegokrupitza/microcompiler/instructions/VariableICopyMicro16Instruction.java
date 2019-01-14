@@ -1,4 +1,4 @@
-package com.diegokrupitza.microcompiler.generator;
+package com.diegokrupitza.microcompiler.instructions;
 
 import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
@@ -15,8 +15,10 @@ import java.util.Optional;
 /**
  * Project: micro16-compiler
  * Document: VariableICopyMicro16Instruction.java
- * Author: Diego Krupitza
- * Created: 21.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 21.12.18
  */
 @Slf4j
 @Getter

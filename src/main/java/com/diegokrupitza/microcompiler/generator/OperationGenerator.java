@@ -7,11 +7,13 @@ import java.util.Optional;
 
 /**
  * Project: micro16-compiler
- * Document: OperationHandler.java
- * Author: Diego Krupitza
- * Created: 25.12.18
+ * Document: OperationGenerator.java
+ *
+ * @version 1.1
+ * @author Diego Krupitza
+ * @date 25.12.18
  */
-public class OperationHandler {
+public class OperationGenerator {
 
     /**
      * Generates the instruction to have a multiplication with a variable and a already existing value in the AC register

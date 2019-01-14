@@ -7,8 +7,10 @@ import lombok.Data;
 /**
  * Project: micro16-compiler
  * Document: OutsourcedRegister.java
- * Author: Diego Krupitza
- * Created: 03.01.19
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 03.01.19
  */
 @Data
 @Builder

@@ -2,10 +2,10 @@ package com.diegokrupitza.microcompiler;
 
 import com.diegokrupitza.microcompiler.exceptions.FileException;
 import com.diegokrupitza.microcompiler.exceptions.Micro16Exception;
-import com.diegokrupitza.microcompiler.generator.AdvancedVariableICopyMicro16Instruction;
-import com.diegokrupitza.microcompiler.generator.Micro16Instruction;
-import com.diegokrupitza.microcompiler.generator.SimpleVariableMicro16Instruction;
-import com.diegokrupitza.microcompiler.generator.VariableICopyMicro16Instruction;
+import com.diegokrupitza.microcompiler.instructions.AdvancedVariableICopyMicro16Instruction;
+import com.diegokrupitza.microcompiler.instructions.Micro16Instruction;
+import com.diegokrupitza.microcompiler.instructions.SimpleVariableMicro16Instruction;
+import com.diegokrupitza.microcompiler.instructions.VariableICopyMicro16Instruction;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,14 +19,17 @@ import java.nio.file.Paths;
 /**
  * Project: micro16-compiler
  * Document: CodeInspector.java
- * Author: Diego Krupitza
- * Created: 26.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 26.12.18
  */
 @Slf4j
 @Setter
 @Getter
 public class CodeInspector {
 
+    public static final String FILE_EXTENSION = "mcr";
     private final StringBuilder OUTPUT_BUILDER = new StringBuilder();
 
     public void parseCode(String inputCode) throws Micro16Exception {
@@ -68,7 +71,7 @@ public class CodeInspector {
     protected String readCode(String inputCodeLocation) throws Micro16Exception {
         String inputCode = "";
 
-        if (!FilenameUtils.getExtension(inputCodeLocation).equalsIgnoreCase("mcr")) {
+        if (!FilenameUtils.getExtension(inputCodeLocation).equalsIgnoreCase(FILE_EXTENSION)) {
             throw new FileException(ErrorMessages.INVALID_FILE_EXTENSION);
         }
 

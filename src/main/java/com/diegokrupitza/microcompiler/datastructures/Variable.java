@@ -8,8 +8,10 @@ import lombok.ToString;
 /**
  * Project: micro16-compiler
  * Document: Variable.java
- * Author: Diego Krupitza
- * Created: 12.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 12.12.18
  */
 @Data
 @Builder

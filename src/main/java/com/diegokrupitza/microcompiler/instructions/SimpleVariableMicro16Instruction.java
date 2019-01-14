@@ -1,4 +1,4 @@
-package com.diegokrupitza.microcompiler.generator;
+package com.diegokrupitza.microcompiler.instructions;
 
 import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.OutsourcedRegister;
@@ -6,6 +6,7 @@ import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.exceptions.Micro16Exception;
+import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 import com.diegokrupitza.microcompiler.helper.MathematicalHelper;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
@@ -17,8 +18,10 @@ import java.util.Optional;
 /**
  * Project: micro16-compiler
  * Document: SimpleVariableMicro16Instruction.java
- * Author: Diego Krupitza
- * Created: 20.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 20.12.18
  */
 @Slf4j
 @Getter

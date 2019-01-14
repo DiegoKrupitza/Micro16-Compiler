@@ -10,8 +10,10 @@ import java.util.Optional;
 /**
  * Project: micro16-compiler
  * Document: ValueGenerator.java
- * Author: Diego Krupitza
- * Created: 20.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 20.12.18
  */
 public class ValueGenerator {
 
@@ -25,7 +27,7 @@ public class ValueGenerator {
      * @param value the number i want to have in my AC register
      * @return the code for generating that given number.
      * The result of that generated value is located at the register AC
-     * @throws GeneratorException
+     * @throws GeneratorException is thrown in case the values is out of range.
      */
     public static Optional<String> generateValue(int value) throws GeneratorException {
         //TODO: log more of the process

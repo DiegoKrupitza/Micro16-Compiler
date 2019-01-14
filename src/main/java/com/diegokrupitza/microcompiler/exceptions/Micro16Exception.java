@@ -5,8 +5,10 @@ import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 /**
  * Project: micro16-compiler
  * Document: Micro16Exception.java
- * Author: Diego Krupitza
- * Created: 21.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 21.12.18
  */
 public abstract class Micro16Exception extends Exception {
 

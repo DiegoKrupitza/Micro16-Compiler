@@ -11,8 +11,9 @@ import java.util.Arrays;
 /**
  * Project: micro16-compiler
  * Document: Main.java
- * Author: Diego Krupitza
- * Created: 12.12.18
+ *
+ * @author Diego Krupitza
+ * @date 12.12.18
  */
 @Slf4j
 @Getter

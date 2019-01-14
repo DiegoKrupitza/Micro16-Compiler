@@ -9,8 +9,10 @@ import java.util.List;
 /**
  * Project: micro16-compiler
  * Document: LabelHandler.java
- * Author: Diego Krupitza
- * Created: 25.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 25.12.18
  */
 public class LabelHandler {
 

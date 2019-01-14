@@ -1,10 +1,12 @@
-package com.diegokrupitza.microcompiler.generator;
+package com.diegokrupitza.microcompiler.instructions;
 
 import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import com.diegokrupitza.microcompiler.exceptions.Micro16Exception;
+import com.diegokrupitza.microcompiler.generator.OperationGenerator;
+import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +17,10 @@ import java.util.Optional;
 /**
  * Project: micro16-compiler
  * Document: VariableICopyMicro16Instruction.java
- * Author: Diego Krupitza
- * Created: 21.12.18
+ *
+ * @author Diego Krupitza
+ * @version 1.1
+ * @date 21.12.18
  */
 @Slf4j
 @Getter
@@ -82,7 +86,7 @@ public class AdvancedVariableICopyMicro16Instruction extends Micro16Instruction 
         //TODO: implement cleaner solution
         if (isVariableLeft()) {
             if ("+".equals(getOperation())) {
-                Optional<String> optionalAdditionInstruction = OperationHandler.generateAddition(referecedVariableLocation);
+                Optional<String> optionalAdditionInstruction = OperationGenerator.generateAddition(referecedVariableLocation);
                 if (!optionalAdditionInstruction.isPresent()) {
                     throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_ADDITION);
                 }
@@ -107,7 +111,7 @@ public class AdvancedVariableICopyMicro16Instruction extends Micro16Instruction 
 
                 }
 
-                Optional<String> optionalMultiplyInstructions = OperationHandler.generateMultiplication(referecedVariableLocation);
+                Optional<String> optionalMultiplyInstructions = OperationGenerator.generateMultiplication(referecedVariableLocation);
                 if (!optionalMultiplyInstructions.isPresent()) {
                     throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MULTIPLICATION);
                 }
@@ -128,7 +132,7 @@ public class AdvancedVariableICopyMicro16Instruction extends Micro16Instruction 
             }
         } else {
             if ("+".equals(getOperation())) {
-                Optional<String> optionalAdditionInstruction = OperationHandler.generateAddition(referecedVariableLocation);
+                Optional<String> optionalAdditionInstruction = OperationGenerator.generateAddition(referecedVariableLocation);
                 if (!optionalAdditionInstruction.isPresent()) {
                     throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_ADDITION);
                 }
@@ -152,7 +156,7 @@ public class AdvancedVariableICopyMicro16Instruction extends Micro16Instruction 
 
                 }
 
-                Optional<String> optionalMultiplyInstructions = OperationHandler.generateMultiplication(referecedVariableLocation);
+                Optional<String> optionalMultiplyInstructions = OperationGenerator.generateMultiplication(referecedVariableLocation);
                 if (!optionalMultiplyInstructions.isPresent()) {
                     throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MULTIPLICATION);
                 }
