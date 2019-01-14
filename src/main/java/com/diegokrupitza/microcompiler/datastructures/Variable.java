@@ -6,9 +6,6 @@ import lombok.NonNull;
 import lombok.ToString;
 
 /**
- * Project: micro16-compiler
- * Document: Variable.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 12.12.18

@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Project: micro16-compiler
- * Document: LabelHandler.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 25.12.18

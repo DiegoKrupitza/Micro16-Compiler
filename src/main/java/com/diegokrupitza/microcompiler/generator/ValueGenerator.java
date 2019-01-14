@@ -8,8 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Optional;
 
 /**
- * Project: micro16-compiler
- * Document: ValueGenerator.java
+ * The aim of this class is to work with the lack of number generation of the
  *
  * @author Diego Krupitza
  * @version 1.1

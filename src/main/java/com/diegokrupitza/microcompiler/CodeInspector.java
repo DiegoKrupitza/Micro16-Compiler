@@ -17,8 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Project: micro16-compiler
- * Document: CodeInspector.java
+ * This class has the job to parse the code for given keywords and to call the correct instruction class.
+ * Beside that it also reads the file content of the program
+ * </p>
  *
  * @author Diego Krupitza
  * @version 1.1

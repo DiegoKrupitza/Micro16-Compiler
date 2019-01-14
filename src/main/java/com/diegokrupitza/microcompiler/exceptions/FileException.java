@@ -3,9 +3,6 @@ package com.diegokrupitza.microcompiler.exceptions;
 import com.diegokrupitza.microcompiler.messages.ErrorMessages;
 
 /**
- * Project: micro16-compiler
- * Document: FileException.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 21.12.18

@@ -1,6 +1,5 @@
 package com.diegokrupitza.microcompiler.instructions;
 
-import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
 import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
@@ -13,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 /**
- * Project: micro16-compiler
- * Document: VariableICopyMicro16Instruction.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 21.12.18
@@ -45,13 +41,14 @@ public class VariableICopyMicro16Instruction extends Micro16Instruction {
     public void generateInstruction() throws Micro16Exception {
 
         // check if there enought space in my registers
-        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
+        Optional<String> currentWorkRegister = getStorageHandler().reserveRegister();
 
         if (!currentWorkRegister.isPresent()) {
             //TODO: try to free up some space by moving some values into the memory, so there is no exception to throw
             throw new GeneratorException(ErrorMessages.NO_REGISTER_AVAILABLE);
         }
-        String variableLocation = StorageHandler.getVariableLocation(this.referencedVariable);
+
+        String variableLocation = getStorageHandler().getVariableLocation(this.referencedVariable);
 
         setMicroInstruction(currentWorkRegister.get() + " <- " + variableLocation + "\n");
 

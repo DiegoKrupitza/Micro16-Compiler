@@ -1,6 +1,5 @@
 package com.diegokrupitza.microcompiler.instructions;
 
-import com.diegokrupitza.microcompiler.Main;
 import com.diegokrupitza.microcompiler.datastructures.OutsourcedRegister;
 import com.diegokrupitza.microcompiler.datastructures.StorageHandler;
 import com.diegokrupitza.microcompiler.datastructures.Variable;
@@ -16,9 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 /**
- * Project: micro16-compiler
- * Document: SimpleVariableMicro16Instruction.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 20.12.18
@@ -66,9 +62,9 @@ public class SimpleVariableMicro16Instruction extends Micro16Instruction {
 
         // check if there enought space in my registers
         // getting the name of the to use register
-        Optional<String> currentWorkRegister = Main.STORAGE_HANDLER.reserveRegister();
+        Optional<String> currentWorkRegister = getStorageHandler().reserveRegister();
         if (!currentWorkRegister.isPresent()) {
-            OutsourcedRegister outsourcedRegister = Main.STORAGE_HANDLER.freeUpRegister();
+            OutsourcedRegister outsourcedRegister = getStorageHandler().freeUpRegister();
 
             registerName = outsourcedRegister.getRegisterName();
             String outsourceInstructions = outsourcedRegister.getInstruction();

@@ -13,8 +13,11 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 /**
- * Project: micro16-compiler
- * Document: StorageHandler.java
+ * This class is here for the management of registers and memory.
+ * Furthermore, the variables are registered here and stored in the memory.
+ * Any register or memory related activities can be found here.
+ *
+ * <p>
  *
  * @author Diego Krupitza
  * @version 1.1
@@ -24,8 +27,17 @@ import java.util.Optional;
 @Slf4j
 public class StorageHandler {
 
+    /**
+     * The constant MEMORY_START_ADDR.
+     */
     public static final int MEMORY_START_ADDR = 0x0000;
+    /**
+     * The constant MEMORY_USE.
+     */
     public static final boolean[] MEMORY_USE = new boolean[254];
+    /**
+     * The constant REGISTER_USE.
+     */
     protected static final boolean[] REGISTER_USE = new boolean[10];
     private static LinkedList<Variable> variableRegisterStack = new LinkedList<>();
 
@@ -46,33 +58,6 @@ public class StorageHandler {
     }
 
     /**
-     * Gets the locations in a register or in memory of a given variable
-     *
-     * @param variableName the name of the variable
-     * @return the location of that variable
-     * @throws VariableException in case the variable is not existing
-     */
-    public static String getVariableLocation(String variableName) throws VariableException {
-        log.debug("Trying to get the location of the variable {}", variableName);
-        if (!variableExist(variableName)) {
-            throw new VariableException(String.format(ErrorMessages.VARIABLE_DOES_NOT_EXISTS.toString(), variableName, Main.CODE_LINE));
-        }
-
-        // variable names are case sensitive
-        Variable variable = getVariableRegisterStack().stream().filter(item -> item.getName().equals(variableName)).findFirst().get();
-
-        if (!variable.isInRegister()) {
-            log.debug("Checking if the variable is in memory");
-            // the var is in the memory that means i have to search for that in the memory
-            //TODO: implement memory search
-        }
-
-        // for further variable analysis
-        variable.setAccessCount(variable.getAccessCount() + 1);
-        return variable.getRegisterName();
-    }
-
-    /**
      * checks if an variable does already exists
      *
      * @param variableName the variable name to check on
@@ -82,18 +67,38 @@ public class StorageHandler {
         return variableRegisterStack.stream().map(Variable::getName).anyMatch(variableName::equals);
     }
 
+    /**
+     * Get register use boolean [ ].
+     *
+     * @return the boolean [ ]
+     */
     public static boolean[] getRegisterUse() {
         return REGISTER_USE;
     }
 
+    /**
+     * Gets memory start addr.
+     *
+     * @return the memory start addr
+     */
     public static int getMemoryStartAddr() {
         return MEMORY_START_ADDR;
     }
 
+    /**
+     * Get memory use boolean [ ].
+     *
+     * @return the boolean [ ]
+     */
     public static boolean[] getMemoryUse() {
         return MEMORY_USE;
     }
 
+    /**
+     * Gets variable register stack.
+     *
+     * @return the variable register stack
+     */
     public static LinkedList<Variable> getVariableRegisterStack() {
         return variableRegisterStack;
     }
@@ -103,7 +108,7 @@ public class StorageHandler {
      * If there is no than you get the min value of Integer
      *
      * @return the index of the memory address. If there is no free memory address
-     * the return value is <code>Integer.MIN_VALUE</code>
+     * the return value is {@code Integer.MIN_VALUE}
      */
     private static int getFirstFreeMemoryAddress() {
         int addressId = Integer.MIN_VALUE;
@@ -119,6 +124,50 @@ public class StorageHandler {
     }
 
     /**
+     * Gets the locations in a register or in memory of a given variable
+     *
+     * @param variableName the name of the variable
+     * @return the location of that variable
+     * @throws VariableException  in case the variable is not existing
+     * @throws GeneratorException the generator exception
+     * @deprecated change to correct return TODO: deprecated just to know that this had to be changes as soon as possible
+     */
+    @Deprecated
+    public String getVariableLocation(String variableName) throws VariableException, GeneratorException {
+        log.debug("Trying to get the location of the variable {}", variableName);
+        if (!variableExist(variableName)) {
+            throw new VariableException(String.format(ErrorMessages.VARIABLE_DOES_NOT_EXISTS.toString(), variableName, Main.CODE_LINE));
+        }
+
+        // variable names are case sensitive
+        Variable variable = getVariableRegisterStack().stream().filter(item -> item.getName().equals(variableName)).findFirst().get();
+
+        if (!variable.isInRegister()) {
+            log.debug("Checking if the variable is in memory");
+            // the var is in the memory that means i have to search for that in the memory
+            //TODO: implement memory search
+
+            int memoryAddress = variable.getMemoryAddress();
+
+            Optional<String> optionalReserveRegister = reserveRegister();
+            if (!optionalReserveRegister.isPresent()) {
+                // free up space in the registers by outsourcing one
+            } else {
+                // there is place in the register to store the value from the memory
+                String openRegister = optionalReserveRegister.get();
+
+                //TODO: work on return
+                String moveIntoRegisterInstructions = moveIntoRegister(openRegister, memoryAddress);
+
+            }
+        }
+
+        // for further variable analysis
+        variable.setAccessCount(variable.getAccessCount() + 1);
+        return variable.getRegisterName();
+    }
+
+    /**
      * Reserves a slot for a register.
      * If there is no register available there is a null object in the Optional
      *
@@ -129,7 +178,7 @@ public class StorageHandler {
         int registerId = getFirstFreeRegister();
         String returnRegister = getRegisterName(registerId);
 
-        log.info("Reserved the register {} with the ID {}", returnRegister, registerId);
+        log.debug("Reserved the register {} with the ID {}", returnRegister, registerId);
         return Optional.ofNullable(returnRegister);
     }
 
@@ -155,7 +204,7 @@ public class StorageHandler {
      * If there is no than you get the min value of Integer
      *
      * @return the index of the register. If there is no free register
-     * the return value is <code>Integer.MIN_VALUE</code>
+     * the return value is {@code Integer.MIN_VALUE}
      */
     private int getFirstFreeRegister() {
         int registerId = Integer.MIN_VALUE;
@@ -174,12 +223,14 @@ public class StorageHandler {
      * Generates the instructions to free up a register.
      * It outsources the oldest not used register into the memory
      *
-     * @return an <code>OutsourcedRegister</code> object that contains the name of the free Register
-     * and the instructions to outsource the old one
-     * @throws MemoryException in case there are no more memory addreses free
+     * @return an {@code OutsourcedRegister} object that contains the name of the free Register and the instructions to outsource the old one
+     * @throws MemoryException    in case there are no more memory addresses free
+     * @throws GeneratorException the generator exception
      * @note AC register has to be free
      */
     public OutsourcedRegister freeUpRegister() throws MemoryException, GeneratorException {
+        //TODO: currently there is a bug that only allows outsourcing to 20 variables, that has to be fixed
+
         OutsourcedRegister returnOutsourcedRegister = null;
         StringBuilder instructions = new StringBuilder();
 
@@ -225,8 +276,8 @@ public class StorageHandler {
      *
      * @param registerName the register to move in
      * @param memAddress   the address where to store the value from the register
-     * @return the instructions to move the value from a register into the <code>memAddress</code> memory address
-     * @throws GeneratorException thrown in case the <code>memAddress</code> cannot be generated
+     * @return the instructions to move the value from a register into the {@code memAddress} memory address
+     * @throws GeneratorException thrown in case the {@code memAddress} cannot be generated
      */
     public String moveIntoMemory(String registerName, int memAddress) throws GeneratorException {
         StringBuilder instructions = new StringBuilder();
@@ -248,6 +299,33 @@ public class StorageHandler {
         return instructions.toString();
     }
 
+    /**
+     * Moves a value stored in the memory at the address {@code memAddress} into the register {@code registerName}
+     *
+     * @param registerName the name of the register in the format <code>"R[registerId]"</code>
+     * @param memAddress   the address of the values in the memory
+     * @return the instruction to move the value from the memAddress into the given register
+     * @throws GeneratorException thrown in case the {@code memAddress} cannot be generated
+     */
+    public String moveIntoRegister(String registerName, int memAddress) throws GeneratorException {
+        StringBuilder instructions = new StringBuilder();
+
+        // we have to generate the value of the address into the AC register
+        // because the micro16 is not able to direct address
+        Optional<String> optionalValue = ValueGenerator.generateValue(memAddress);
+        if (!optionalValue.isPresent()) {
+            throw new GeneratorException(ErrorMessages.CANNOT_GENERATE_MEMORY_NUMBER);
+        }
+
+        instructions.append("\n")
+                .append(optionalValue.get())
+                .append("\n")
+                .append("MAR <- AC\n")
+                .append(registerName).append(" <- MBR; wr\n")
+                .append("wr\n");
+
+        return instructions.toString();
+    }
 
     /**
      * Gets the oldest not used variable that is not the the memory.
@@ -268,12 +346,12 @@ public class StorageHandler {
     }
 
     /**
-     * Converts the id of the <code>MEMORY_USE</code> array into a memory address
+     * Converts the id of the {@code MEMORY_USE} array into a memory address
      * that can be use in the Micro16
      *
-     * @param addressId the id of that memory address in the <code>MEMORY_USE</code> array
+     * @param addressId the id of that memory address in the {@code MEMORY_USE} array
      * @return the calculated Memory address to use in a Micro16, in case that there is an
-     * invalid memory address generated the return value is <code>Integer.MIN_VALUE</code>
+     * invalid memory address generated the return value is {@code Integer.MIN_VALUE}
      */
     private int convertToMemoryAddress(int addressId) {
         int returnAddress = MEMORY_START_ADDR + addressId;

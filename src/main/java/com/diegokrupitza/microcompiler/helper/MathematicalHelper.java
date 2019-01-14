@@ -4,9 +4,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Project: micro16-compiler
- * Document: MathematicalHelper.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 20.12.18

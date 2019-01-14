@@ -6,11 +6,8 @@ import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import java.util.Optional;
 
 /**
- * Project: micro16-compiler
- * Document: OperationGenerator.java
- *
- * @version 1.1
  * @author Diego Krupitza
+ * @version 1.1
  * @date 25.12.18
  */
 public class OperationGenerator {

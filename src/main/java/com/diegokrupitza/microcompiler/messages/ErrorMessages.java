@@ -3,9 +3,6 @@ package com.diegokrupitza.microcompiler.messages;
 import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 
 /**
- * Project: micro16-compiler
- * Document: ErrorMessages.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 12.12.18

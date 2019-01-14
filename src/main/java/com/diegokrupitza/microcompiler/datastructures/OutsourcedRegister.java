@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * Project: micro16-compiler
- * Document: OutsourcedRegister.java
- *
  * @author Diego Krupitza
  * @version 1.1
  * @date 03.01.19

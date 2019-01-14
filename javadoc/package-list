@@ -1,0 +1,7 @@
+com.diegokrupitza.microcompiler
+com.diegokrupitza.microcompiler.datastructures
+com.diegokrupitza.microcompiler.exceptions
+com.diegokrupitza.microcompiler.generator
+com.diegokrupitza.microcompiler.helper
+com.diegokrupitza.microcompiler.instructions
+com.diegokrupitza.microcompiler.messages

@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 
 /**
- * Project: micro16-compiler
- * Document: Main.java
+ * The main entry point of the Micro16-Compiler.
  *
  * @author Diego Krupitza
  * @date 12.12.18
@@ -20,11 +19,9 @@ import java.util.Arrays;
 @Setter
 public class Main {
 
-    public static final String INPUT_CODE_LOCATION = "samplecode/variable-outsourcing.mcr";
+    public static final String INPUT_CODE_LOCATION = "samplecode/variable-outsourcing-getback.mcr";
 
-    // For later improvements like storage management.
-    // For example when all the 10 registers are already filled and you want to save a another variable.
-    // In that case you habe to write one of the older variables into the memory
+
     public static final StorageHandler STORAGE_HANDLER = new StorageHandler();
 
     public static final CodeInspector CODE_INSPECTOR = new CodeInspector();
