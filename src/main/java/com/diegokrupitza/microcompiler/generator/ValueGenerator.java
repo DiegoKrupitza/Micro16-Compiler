@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Optional;
 
 /**
- * The aim of this class is to work with the lack of number generation of the
+ * The aim of this class is to work with the lack of number generation of the Micro16
  *
  * @author Diego Krupitza
  * @version 1.1

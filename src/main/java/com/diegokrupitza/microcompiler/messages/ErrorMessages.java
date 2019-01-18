@@ -3,6 +3,8 @@ package com.diegokrupitza.microcompiler.messages;
 import com.diegokrupitza.microcompiler.generator.ValueGenerator;
 
 /**
+ * This enum contains all the mesages that the compiler displays during the process of generating the micro-16 code.
+ *
  * @author Diego Krupitza
  * @version 1.1
  * @date 12.12.18

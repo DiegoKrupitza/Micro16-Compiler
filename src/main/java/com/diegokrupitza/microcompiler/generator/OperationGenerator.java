@@ -6,6 +6,10 @@ import com.diegokrupitza.microcompiler.exceptions.GeneratorException;
 import java.util.Optional;
 
 /**
+ * The Micro16 only has one operation available (+).
+ * Because of that you have to implement the other three operations fully be hand!
+ * This class aims to handle that lack of operations by generating those operations by using the addition.
+ *
  * @author Diego Krupitza
  * @version 1.1
  * @date 25.12.18
